@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<Property name="log.base" value="${catalina.base}/logs/JQC/JQC.out" />
+<Property name="logHistory.base" value="${catalina.base}/logs/JQC/logHistory/JQC.out" />
+<jmxConfigurator />
+<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+	<encoder>
+		<pattern>[%date] [%thread] [%level] [%logger{80}] %msg%n</pattern>
+		<charset>UTF-8</charset> 
+	</encoder>
+</appender>
+<appender name="logfile"
+	class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+	<File>${log.base}.log</File>
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<FileNamePattern>${logHistory.base}.%d{yyyy-MM-dd_HH}.log.zip</FileNamePattern>
+		<maxHistory>168</maxHistory>
+	</rollingPolicy>
+	<encoder >
+		<pattern>[%date] [%thread] [%level] [%logger{80}] %msg%n</pattern>
+		<charset>UTF-8</charset> 
+	</encoder>
+</appender>
+<!-- log for error -->
+<property name="log.error" value="${catalina.base}/logs/JQC/JQC.error"/>
+<appender name="errorAppender" 
+	class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+	<file>${log.error}.log</file>
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<FileNamePattern>${log.error}.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+		<maxHistory>7</maxHistory>
+	</rollingPolicy>
+	<encoder>
+		<pattern>[%date] [%thread] [%level] [%logger{80}] %msg%n</pattern>
+		<charset>UTF-8</charset> 
+	</encoder>
+	<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+		<level>ERROR</level>
+		<onMatch>ACCEPT</onMatch>
+		<onMismatch>DENY</onMismatch>
+	</filter>
+</appender>
+<logger name="com.baidu.ecomqaep" >
+	<level value="ALL" />
+</logger>
+
+<root>
+	<level value="INFO" />
+	<appender-ref ref="stdout" />
+	<appender-ref ref="logfile" />
+	<appender-ref ref="errorAppender" />
+</root>
+</configuration>

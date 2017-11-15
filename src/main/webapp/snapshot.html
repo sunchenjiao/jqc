@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EP-Schedule Snapshot</title>
+</head>
+<body>
+
+<div>
+<textarea style="position:float" id=details rows="50" cols="75">
+
+</textarea>
+<textarea style="position:float" id=agentinfo rows="50" cols="75">
+</textarea>
+
+</div>
+
+</body>
+
+<script src="js/jquery-2.0.3.min.js"></script>
+<script>
+		getdetails();
+		getagentinfo();	
+	function getdetails(){
+	console.log("getDetails");
+		var url="api/admin/jobCheck";
+		$.get(url, function(data) {
+                                $("#details").text(data.data);
+                    });
+
+	}
+
+	function getagentinfo(){
+		var url="api/admin/nodeCheck";
+		console.log("getDetails");
+		$.get(url, function(data) {
+                                $("#agentinfo").text(data.data);
+                    });
+	}
+
+</script>
+</html>
